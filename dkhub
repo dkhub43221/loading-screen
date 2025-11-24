@@ -1,0 +1,131 @@
+coroutine.wrap(function()
+    local player = game.Players.LocalPlayer
+    local playerGui = player:WaitForChild("PlayerGui")
+
+    local screenGui = Instance.new("ScreenGui")
+    screenGui.Parent = game.CoreGui
+    screenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+    screenGui.DisplayOrder = 99999
+    screenGui.IgnoreGuiInset = true
+
+    local frame = Instance.new("Frame")
+    frame.Size = UDim2.new(1, 0, 1, 0)
+    frame.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
+    frame.BackgroundTransparency = 0
+    frame.ZIndex = 10000
+    frame.Parent = screenGui
+
+    local titleLabel = Instance.new("TextLabel", frame)
+    titleLabel.Size = UDim2.new(1, 0, 0.15, 0)
+    titleLabel.Position = UDim2.new(0, 0, 0.2, 7.5)
+    titleLabel.Text = ""
+    titleLabel.TextScaled = true
+    titleLabel.Font = Enum.Font.GothamBlack
+    titleLabel.TextColor3 = Color3.fromRGB(180, 0, 180)
+    titleLabel.BackgroundTransparency = 1
+    titleLabel.ZIndex = 10001
+
+    local function animateTitle(label, text)
+        local colors = { Color3.fromRGB(180, 0, 180) }
+        local colorIndex = 1
+        while true do
+            for i = #text, 1, -1 do
+                label.Text = string.sub(text, 1, i) .. "|"
+                wait(0.1)
+            end
+            label.Text = "|"
+            wait(0.2)
+            label.TextColor3 = colors[colorIndex]
+            colorIndex = colorIndex % #colors + 1
+            for i = 1, #text do
+                label.Text = string.sub(text, 1, i) .. "|"
+                wait(0.1)
+            end
+            label.Text = text
+            wait(0.5)
+        end
+    end
+
+    coroutine.wrap(function()
+        animateTitle(titleLabel, "EXPRESS HUB")
+    end)()
+
+    local progressBarFrame = Instance.new("Frame")
+    progressBarFrame.Size = UDim2.new(0, 600, 0, 30)
+    progressBarFrame.Position = UDim2.new(0.5, -300, 0.5, 35)
+    progressBarFrame.BackgroundTransparency = 0
+    progressBarFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    progressBarFrame.BorderSizePixel = 3
+    progressBarFrame.BorderColor3 = Color3.fromRGB(180, 0, 180)
+    progressBarFrame.ZIndex = 10001
+    progressBarFrame.Parent = screenGui
+    
+    local progressBarFrameCorner = Instance.new("UICorner")
+    progressBarFrameCorner.CornerRadius = UDim.new(0.35, 0)
+    progressBarFrameCorner.Parent = progressBarFrame
+    
+    local progressBar = Instance.new("Frame")
+    progressBar.Size = UDim2.new(0, 0, 1, 0)
+    progressBar.Position = UDim2.new(0, 0, 0, 0)
+    progressBar.BackgroundColor3 = Color3.fromRGB(180, 0, 180)
+    progressBar.ZIndex = 10002
+    progressBar.Parent = progressBarFrame
+    
+    local progressBarCorner = Instance.new("UICorner")
+    progressBarCorner.CornerRadius = UDim.new(0.35, 0)
+    progressBarCorner.Parent = progressBar
+    
+    local percentageLabel = Instance.new("TextLabel")
+    percentageLabel.Size = UDim2.new(1, 0, 1, 0)
+    percentageLabel.Position = UDim2.new(0, 0, 0, 50)
+    percentageLabel.BackgroundTransparency = 1
+    percentageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    percentageLabel.Font = Enum.Font.SourceSansBold
+    percentageLabel.TextSize = 20
+    percentageLabel.Text = "0% Completed"
+    percentageLabel.ZIndex = 10003
+    percentageLabel.Parent = progressBarFrame
+
+    
+    local startTime = tick()
+    local duration = 7
+    
+    game:GetService("RunService").Heartbeat:Connect(function()
+        if progressBar then
+            local elapsed = tick() - startTime
+            local progress = math.min(elapsed / duration, 1)
+            progressBar.Size = UDim2.new(progress, 0, 1, 0)
+            percentageLabel.Text = tostring(math.floor(progress * 100)) .. "% Completed"
+        end
+    end)
+
+
+    local welcomeLabel = Instance.new("TextLabel", frame)
+    welcomeLabel.Size = UDim2.new(0.8, 0, 0.08, 0)
+    welcomeLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
+    welcomeLabel.Text = "Loading..."
+    welcomeLabel.Font = Enum.Font.GothamBold
+    welcomeLabel.TextSize = 32
+    welcomeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    welcomeLabel.BackgroundTransparency = 1
+    welcomeLabel.ZIndex = 10001
+    
+    wait(0.5)
+    welcomeLabel.Text = "Detecting Game..."
+    wait(1.5)
+
+    local success, productInfo = pcall(function()
+        return game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId)
+    end)
+
+    if success and productInfo then
+        welcomeLabel.Text = "Game Detected: " .. productInfo.Name
+    else
+        welcomeLabel.Text = "Game Detection Failed."
+    end
+
+    wait(1)
+    welcomeLabel.Text = "Initializing Script..."
+    wait(4)
+    screenGui:Destroy()
+end)()
