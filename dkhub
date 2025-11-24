@@ -21,12 +21,12 @@ coroutine.wrap(function()
     titleLabel.Text = ""
     titleLabel.TextScaled = true
     titleLabel.Font = Enum.Font.GothamBlack
-    titleLabel.TextColor3 = Color3.fromRGB(180, 0, 180)
+    titleLabel.TextColor3 = Color3.fromRGB(77, 251, 16) -- Green
     titleLabel.BackgroundTransparency = 1
     titleLabel.ZIndex = 10001
 
     local function animateTitle(label, text)
-        local colors = { Color3.fromRGB(180, 0, 180) }
+        local colors = { Color3.fromRGB(77, 251, 16) } -- Green
         local colorIndex = 1
         while true do
             for i = #text, 1, -1 do
@@ -47,7 +47,7 @@ coroutine.wrap(function()
     end
 
     coroutine.wrap(function()
-        animateTitle(titleLabel, "EXPRESS HUB")
+        animateTitle(titleLabel, "DK's HUB")
     end)()
 
     local progressBarFrame = Instance.new("Frame")
@@ -56,40 +56,39 @@ coroutine.wrap(function()
     progressBarFrame.BackgroundTransparency = 0
     progressBarFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
     progressBarFrame.BorderSizePixel = 3
-    progressBarFrame.BorderColor3 = Color3.fromRGB(180, 0, 180)
+    progressBarFrame.BorderColor3 = Color3.fromRGB(77, 251, 16) -- Green
     progressBarFrame.ZIndex = 10001
     progressBarFrame.Parent = screenGui
-    
+
     local progressBarFrameCorner = Instance.new("UICorner")
     progressBarFrameCorner.CornerRadius = UDim.new(0.35, 0)
     progressBarFrameCorner.Parent = progressBarFrame
-    
+
     local progressBar = Instance.new("Frame")
     progressBar.Size = UDim2.new(0, 0, 1, 0)
     progressBar.Position = UDim2.new(0, 0, 0, 0)
-    progressBar.BackgroundColor3 = Color3.fromRGB(180, 0, 180)
+    progressBar.BackgroundColor3 = Color3.fromRGB(77, 251, 16) -- Green
     progressBar.ZIndex = 10002
     progressBar.Parent = progressBarFrame
-    
+
     local progressBarCorner = Instance.new("UICorner")
     progressBarCorner.CornerRadius = UDim.new(0.35, 0)
     progressBarCorner.Parent = progressBar
-    
+
     local percentageLabel = Instance.new("TextLabel")
     percentageLabel.Size = UDim2.new(1, 0, 1, 0)
     percentageLabel.Position = UDim2.new(0, 0, 0, 50)
     percentageLabel.BackgroundTransparency = 1
-    percentageLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    percentageLabel.TextColor3 = Color3.fromRGB(77, 251, 16) -- Green
     percentageLabel.Font = Enum.Font.SourceSansBold
     percentageLabel.TextSize = 20
     percentageLabel.Text = "0% Completed"
     percentageLabel.ZIndex = 10003
     percentageLabel.Parent = progressBarFrame
 
-    
     local startTime = tick()
     local duration = 7
-    
+
     game:GetService("RunService").Heartbeat:Connect(function()
         if progressBar then
             local elapsed = tick() - startTime
@@ -99,17 +98,16 @@ coroutine.wrap(function()
         end
     end)
 
-
     local welcomeLabel = Instance.new("TextLabel", frame)
     welcomeLabel.Size = UDim2.new(0.8, 0, 0.08, 0)
     welcomeLabel.Position = UDim2.new(0.1, 0, 0.4, 0)
     welcomeLabel.Text = "Loading..."
     welcomeLabel.Font = Enum.Font.GothamBold
     welcomeLabel.TextSize = 32
-    welcomeLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+    welcomeLabel.TextColor3 = Color3.fromRGB(77, 251, 16) -- Green
     welcomeLabel.BackgroundTransparency = 1
     welcomeLabel.ZIndex = 10001
-    
+
     wait(0.5)
     welcomeLabel.Text = "Detecting Game..."
     wait(1.5)
